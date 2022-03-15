@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="deep_orange_400_light">#ffa270</color>
+    <color name="deep_orange_400_medium">#ff7043</color>
+    <color name="deep_orange_400_dark">#c63f17</color>
+    <color name="deep_orange_500_medium">#ff5722</color>
+    <color name="deep_orange_500_dark">#c41c00</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>
