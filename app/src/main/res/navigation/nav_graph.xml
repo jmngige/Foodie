@@ -8,8 +8,8 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.starsolns.emenu.ui.HomeFragment"
-        android:label="Home"
-        tools:layout="@layout/fragment_home" />
+        android:label="eMenu"
+        tools:layout="@layout/fragment_home"/>
     <fragment
         android:id="@+id/dashboardFragment"
         android:name="com.starsolns.emenu.ui.DashboardFragment"
