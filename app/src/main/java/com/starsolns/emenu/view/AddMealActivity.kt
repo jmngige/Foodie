@@ -52,10 +52,31 @@ class AddMealActivity : AppCompatActivity() {
         }
 
         customBinding.cameraOption.setOnClickListener {
-            Toast.makeText(this, "Take image from phone camera", Toast.LENGTH_LONG).show()
-            dialog.dismiss()
+            requestCameraAccessPermissions(dialog)
         }
 
+    }
+
+    private fun requestCameraAccessPermissions(dialog: Dialog) {
+        Dexter.withContext(this).withPermissions(
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA
+        ).withListener(object: MultiplePermissionsListener{
+            override fun onPermissionsChecked(permsReport: MultiplePermissionsReport?) {
+                if(permsReport!!.areAllPermissionsGranted()){
+                    Toast.makeText(applicationContext, "Take image from phone camera", Toast.LENGTH_LONG).show()
+                    dialog.dismiss()
+                }
+            }
+            override fun onPermissionRationaleShouldBeShown(
+                permsRequest: MutableList<PermissionRequest>?,
+                token: PermissionToken?
+            ) {
+                showCustomDialogOnPermissionsDeny()
+            }
+
+        }).onSameThread().check()
     }
 
     private fun requestGalleryAccessPermissions(dialog: Dialog) {
@@ -63,8 +84,8 @@ class AddMealActivity : AppCompatActivity() {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         ).withListener(object : MultiplePermissionsListener {
-            override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
-                if (report!!.areAllPermissionsGranted()) {
+            override fun onPermissionsChecked(permsReport: MultiplePermissionsReport?) {
+                if (permsReport!!.areAllPermissionsGranted()) {
                     Toast.makeText(applicationContext, "Gallery Option Accepted ", Toast.LENGTH_LONG).show()
                     dialog.dismiss()
                 }else{
