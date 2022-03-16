@@ -92,7 +92,8 @@ class AddMealActivity : AppCompatActivity() {
         ).withListener(object : MultiplePermissionsListener {
             override fun onPermissionsChecked(permsReport: MultiplePermissionsReport?) {
                 if (permsReport!!.areAllPermissionsGranted()) {
-                    Toast.makeText(applicationContext, "Gallery Option Accepted ", Toast.LENGTH_LONG).show()
+                   val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                    startActivityForResult(galleryIntent, GALLERY_OPTION_REQUEST_CODE)
                     dialog.dismiss()
                 }else{
                     showCustomDialogOnPermissionsDeny()
@@ -135,11 +136,18 @@ class AddMealActivity : AppCompatActivity() {
                     binding.addMealImage.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_edit))
                 }
             }
+            if(requestCode == GALLERY_OPTION_REQUEST_CODE){
+                data?.let {
+                    val image = data.data
+                    binding.addMealImageView.setImageURI(image)
+                    binding.addMealImage.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_edit))
+                }
+            }
         }
     }
 
     companion object {
-        const val GALLERY_OPTION_REQUEST_CODE = 10
+        const val GALLERY_OPTION_REQUEST_CODE = 100
         const val CAMERA_OPTION_REQUEST_CODE = 101
     }
 
