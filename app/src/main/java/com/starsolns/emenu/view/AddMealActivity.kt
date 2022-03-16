@@ -21,7 +21,7 @@ import com.starsolns.emenu.databinding.CustomAddImageLayoutBinding
 
 class AddMealActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddMealBinding
-    private val dialog = Dialog(this)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +38,7 @@ class AddMealActivity : AppCompatActivity() {
 
     private fun loadCustomAddImageOptions() {
         val customBinding = CustomAddImageLayoutBinding.inflate(layoutInflater)
+        val dialog = Dialog(this)
         dialog.setContentView(customBinding.root)
         dialog.window?.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,
@@ -46,7 +47,7 @@ class AddMealActivity : AppCompatActivity() {
         dialog.show()
 
         customBinding.galleryOption.setOnClickListener {
-            requestGalleryAccessPermissions()
+            requestGalleryAccessPermissions(dialog)
 
         }
 
@@ -57,7 +58,7 @@ class AddMealActivity : AppCompatActivity() {
 
     }
 
-    private fun requestGalleryAccessPermissions() {
+    private fun requestGalleryAccessPermissions(dialog: Dialog) {
         Dexter.withContext(this).withPermissions(
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -94,7 +95,6 @@ class AddMealActivity : AppCompatActivity() {
                 }
             }
             .setNegativeButton("Cancel"){_,_->
-                dialog.dismiss()
             }.show()
     }
 
