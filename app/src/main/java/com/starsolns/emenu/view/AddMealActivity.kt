@@ -50,12 +50,13 @@ class AddMealActivity : AppCompatActivity() {
 
     private var imagePath: String = ""
 
+    private lateinit var customListDialog :Dialog
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddMealBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
-
 
         binding.addMealImage.setOnClickListener {
             loadCustomAddImageOptions()
@@ -69,21 +70,41 @@ class AddMealActivity : AppCompatActivity() {
             loadCustomListOptions("Select Meal Category", Constants.getMealCategories(), Constants.MEAL_CATEGORY)
         }
 
+        binding.addMealDuration.setOnClickListener {
+            loadCustomListOptions("Select preparation Duration", Constants.getMealDuration(), Constants.MEAL_DURATION)
+        }
+
     }
 
     private fun loadCustomListOptions(title: String, itemsList: List<String>, selectedItem: String){
-        val customDialog = Dialog(this)
         val customBinding: CustomListLayoutBinding = CustomListLayoutBinding.inflate(layoutInflater)
-
-        customDialog.setContentView(customBinding.root)
+        customListDialog = Dialog(this)
+        customListDialog.setContentView(customBinding.root)
         customBinding.mealSelectionTitle.text = title
 
         val adapter = CustomListAdapter(this, itemsList, selectedItem)
         customBinding.itemsListRv.layoutManager = LinearLayoutManager(this)
         customBinding.itemsListRv.adapter = adapter
 
-        customDialog.show()
+        customListDialog.show()
 
+    }
+
+     fun setSelectedItem(item: String, selection: String){
+        when(selection){
+            Constants.MEAL_TYPE -> {
+                binding.addMealType.setText(item)
+                customListDialog.dismiss()
+            }
+            Constants.MEAL_CATEGORY ->{
+                binding.addMealCategory.setText(item)
+                customListDialog.dismiss()
+            }
+            Constants.MEAL_DURATION ->{
+                binding.addMealDuration.setText(item)
+                customListDialog.dismiss()
+            }
+        }
     }
 
 

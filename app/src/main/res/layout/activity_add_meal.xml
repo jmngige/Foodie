@@ -69,77 +69,114 @@
                 app:layout_constraintTop_toBottomOf="@+id/add_meal_name">
 
                 <EditText
-                    android:clickable="true"
                     android:id="@+id/add_meal_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="false"
                     android:inputType="text"
-                    android:padding="20dp"
-                    android:focusable="false" />
+                    android:padding="20dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/add_meal_category"
-                android:layout_width="0dp"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtInput_category"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
                 android:hint="Category"
-                android:inputType="text"
-                android:padding="20dp"
-                android:focusable="false"
-                android:clickable="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtInput_type" />
+                app:layout_constraintTop_toBottomOf="@+id/txtInput_type">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/add_meal_ingredients"
-                android:layout_width="0dp"
+                <EditText
+                    android:id="@+id/add_meal_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:inputType="text"
+                    android:padding="20dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtInput_ingredients"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
-                android:gravity="top"
                 android:hint="Ingredients"
-                android:inputType="textMultiLine"
-                android:minLines="8"
-                android:paddingStart="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/add_meal_category" />
+                app:layout_constraintTop_toBottomOf="@+id/txtInput_category">
+
+                <EditText
+                    android:id="@+id/add_meal_ingredients"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:gravity="top"
+                    android:inputType="textMultiLine"
+                    android:minLines="8"
+                    android:paddingStart="8dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/add_meal_duration"
-                android:layout_width="0dp"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtInput_duration"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
-                android:gravity="top"
                 android:hint="Duration"
-                android:inputType="text"
-                android:padding="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/add_meal_ingredients" />
+                app:layout_constraintTop_toBottomOf="@+id/txtInput_ingredients">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/add_meal_directions"
-                android:layout_width="0dp"
+                <EditText
+                    android:id="@+id/add_meal_duration"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:inputType="text"
+                    android:padding="20dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtInput_directions"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
-                android:gravity="top"
                 android:hint="Directions"
-                android:inputType="text"
-                android:padding="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/add_meal_duration" />
+                app:layout_constraintTop_toBottomOf="@+id/txtInput_duration">
+
+                <EditText
+                    android:id="@+id/add_meal_directions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:inputType="textMultiLine"
+                    android:minLines="3"
+                    android:padding="20dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/add_meal_button"
@@ -151,7 +188,7 @@
                 android:text="Add Meal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/add_meal_directions" />
+                app:layout_constraintTop_toBottomOf="@id/txtInput_directions" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
