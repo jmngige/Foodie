@@ -16,6 +16,7 @@ import android.provider.Settings
 import android.text.TextUtils
 import android.util.Log
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -83,30 +84,27 @@ class AddMealActivity : AppCompatActivity() {
         }
 
         binding.addMealButton.setOnClickListener {
-            storeDetailsInTheDatabase()
+            val title = binding.addMealName.text.toString().trim()
+            val type = binding.addMealType.text.toString().trim()
+            val category = binding.addMealCategory.text.toString().trim()
+            val ingredients = binding.addMealIngredients.text.toString().trim()
+            val duration = binding.addMealDuration.text.toString().trim()
+            val directions = binding.addMealDirections.text.toString().trim()
+
+            if (TextUtils.isEmpty(imagePath) || TextUtils.isEmpty(title) || TextUtils.isEmpty(type) || TextUtils.isEmpty(category) || TextUtils.isEmpty(ingredients)
+                || TextUtils.isEmpty(duration) || TextUtils.isEmpty(directions)) {
+
+                Toast.makeText(this, "Please please pleeeaase do the necessary", Toast.LENGTH_LONG).show()
+
+            }else{
+                Toast.makeText(this, "Great job filling them in", Toast.LENGTH_LONG).show()
+            }
         }
 
     }
 
     private fun storeDetailsInTheDatabase() {
-        val title = binding.addMealName.toString().trim()
-        val type = binding.addMealType.toString().trim()
-        val category = binding.addMealCategory.toString().trim()
-        val ingredients = binding.addMealIngredients.toString().trim()
-        val duration = binding.addMealDuration.toString().trim()
-        val directions = binding.addMealDirections.toString().trim()
 
-        if (TextUtils.isEmpty(title) or TextUtils.isEmpty(type) or TextUtils.isEmpty(category) or TextUtils.isEmpty(
-                ingredients
-            ) or TextUtils.isEmpty(duration) or TextUtils.isEmpty(directions)) {
-            val snackbar = Snackbar.make(
-                binding.root,
-                "Please ensure you've filled all empty spaces",
-                Snackbar.LENGTH_LONG
-            )
-
-            snackbar.show()
-        }
     }
 
     private fun loadCustomListOptions(
