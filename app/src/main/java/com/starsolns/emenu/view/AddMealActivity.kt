@@ -13,10 +13,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.Settings
+import android.text.TextUtils
 import android.util.Log
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -28,6 +27,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.google.android.material.snackbar.Snackbar
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
@@ -50,7 +50,7 @@ class AddMealActivity : AppCompatActivity() {
 
     private var imagePath: String = ""
 
-    private lateinit var customListDialog :Dialog
+    private lateinit var customListDialog: Dialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,16 +67,53 @@ class AddMealActivity : AppCompatActivity() {
         }
 
         binding.addMealCategory.setOnClickListener {
-            loadCustomListOptions("Select Meal Category", Constants.getMealCategories(), Constants.MEAL_CATEGORY)
+            loadCustomListOptions(
+                "Select Meal Category",
+                Constants.getMealCategories(),
+                Constants.MEAL_CATEGORY
+            )
         }
 
         binding.addMealDuration.setOnClickListener {
-            loadCustomListOptions("Select preparation Duration", Constants.getMealDuration(), Constants.MEAL_DURATION)
+            loadCustomListOptions(
+                "Select preparation Duration",
+                Constants.getMealDuration(),
+                Constants.MEAL_DURATION
+            )
+        }
+
+        binding.addMealButton.setOnClickListener {
+            storeDetailsInTheDatabase()
         }
 
     }
 
-    private fun loadCustomListOptions(title: String, itemsList: List<String>, selectedItem: String){
+    private fun storeDetailsInTheDatabase() {
+        val title = binding.addMealName.toString().trim()
+        val type = binding.addMealType.toString().trim()
+        val category = binding.addMealCategory.toString().trim()
+        val ingredients = binding.addMealIngredients.toString().trim()
+        val duration = binding.addMealDuration.toString().trim()
+        val directions = binding.addMealDirections.toString().trim()
+
+        if (TextUtils.isEmpty(title) or TextUtils.isEmpty(type) or TextUtils.isEmpty(category) or TextUtils.isEmpty(
+                ingredients
+            ) or TextUtils.isEmpty(duration) or TextUtils.isEmpty(directions)) {
+            val snackbar = Snackbar.make(
+                binding.root,
+                "Please ensure you've filled all empty spaces",
+                Snackbar.LENGTH_LONG
+            )
+
+            snackbar.show()
+        }
+    }
+
+    private fun loadCustomListOptions(
+        title: String,
+        itemsList: List<String>,
+        selectedItem: String
+    ) {
         val customBinding: CustomListLayoutBinding = CustomListLayoutBinding.inflate(layoutInflater)
         customListDialog = Dialog(this)
         customListDialog.setContentView(customBinding.root)
@@ -90,17 +127,17 @@ class AddMealActivity : AppCompatActivity() {
 
     }
 
-     fun setSelectedItem(item: String, selection: String){
-        when(selection){
+    fun setSelectedItem(item: String, selection: String) {
+        when (selection) {
             Constants.MEAL_TYPE -> {
                 binding.addMealType.setText(item)
                 customListDialog.dismiss()
             }
-            Constants.MEAL_CATEGORY ->{
+            Constants.MEAL_CATEGORY -> {
                 binding.addMealCategory.setText(item)
                 customListDialog.dismiss()
             }
-            Constants.MEAL_DURATION ->{
+            Constants.MEAL_DURATION -> {
                 binding.addMealDuration.setText(item)
                 customListDialog.dismiss()
             }
@@ -134,14 +171,15 @@ class AddMealActivity : AppCompatActivity() {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA
-        ).withListener(object: MultiplePermissionsListener{
+        ).withListener(object : MultiplePermissionsListener {
             override fun onPermissionsChecked(permsReport: MultiplePermissionsReport?) {
-                if(permsReport!!.areAllPermissionsGranted()){
-                   val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                if (permsReport!!.areAllPermissionsGranted()) {
+                    val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                     startActivityForResult(cameraIntent, CAMERA_OPTION_REQUEST_CODE)
                     dialog.dismiss()
                 }
             }
+
             override fun onPermissionRationaleShouldBeShown(
                 permsRequest: MutableList<PermissionRequest>?,
                 token: PermissionToken?
@@ -159,13 +197,15 @@ class AddMealActivity : AppCompatActivity() {
         ).withListener(object : MultiplePermissionsListener {
             override fun onPermissionsChecked(permsReport: MultiplePermissionsReport?) {
                 if (permsReport!!.areAllPermissionsGranted()) {
-                   val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                    val galleryIntent =
+                        Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                     startActivityForResult(galleryIntent, GALLERY_OPTION_REQUEST_CODE)
                     dialog.dismiss()
-                }else{
+                } else {
                     showCustomDialogOnPermissionsDeny()
                 }
             }
+
             override fun onPermissionRationaleShouldBeShown(
                 permsRequest: MutableList<PermissionRequest>?,
                 token: PermissionToken?
@@ -179,33 +219,33 @@ class AddMealActivity : AppCompatActivity() {
         AlertDialog.Builder(this)
             .setMessage("Some features won't work correctly without enabling these permissions")
             .setTitle("!Warning")
-            .setPositiveButton("Settings"){_,_->
-                try{
+            .setPositiveButton("Settings") { _, _ ->
+                try {
                     val settingsIntent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                    val uri = Uri.fromParts("package",packageName,null)
+                    val uri = Uri.fromParts("package", packageName, null)
                     settingsIntent.data = uri
                     startActivity(settingsIntent)
-                }catch (e : ActivityNotFoundException){
+                } catch (e: ActivityNotFoundException) {
                     e.printStackTrace()
                 }
             }
-            .setNegativeButton("Cancel"){_,_->
+            .setNegativeButton("Cancel") { _, _ ->
             }.show()
     }
 
     //save images captured and images selected to phones internal storage
-    private fun saveSelectedImagesToInternalStorage(bitmap: Bitmap): String{
+    private fun saveSelectedImagesToInternalStorage(bitmap: Bitmap): String {
         val wrapper = ContextWrapper(applicationContext)
 
         var file = wrapper.getDir(EMENU_IMAGE_DIRECTORY, Context.MODE_PRIVATE)
         file = File(file, "emenu.${UUID.randomUUID()}.jpg")
 
-        try{
+        try {
             val stream: OutputStream = FileOutputStream(file)
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
             stream.flush()
             stream.close()
-        }catch (e: IOException){
+        } catch (e: IOException) {
             e.printStackTrace()
         }
 
@@ -214,8 +254,8 @@ class AddMealActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode == Activity.RESULT_OK){
-            if(requestCode == CAMERA_OPTION_REQUEST_CODE){
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == CAMERA_OPTION_REQUEST_CODE) {
                 data?.let {
                     val capturedImage = data.extras!!.get("data") as Bitmap
 
@@ -226,17 +266,22 @@ class AddMealActivity : AppCompatActivity() {
 
                     imagePath = saveSelectedImagesToInternalStorage(capturedImage)
                     Log.i(TAG, imagePath)
-                    binding.addMealImage.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_edit))
+                    binding.addMealImage.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            this,
+                            R.drawable.ic_edit
+                        )
+                    )
                 }
             }
-            if(requestCode == GALLERY_OPTION_REQUEST_CODE){
+            if (requestCode == GALLERY_OPTION_REQUEST_CODE) {
                 data?.let {
                     val selectedImage = data.data
                     Glide.with(this)
                         .load(selectedImage)
                         .centerCrop()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .listener(object: RequestListener<Drawable>{
+                        .listener(object : RequestListener<Drawable> {
                             override fun onLoadFailed(
                                 e: GlideException?,
                                 model: Any?,
@@ -265,7 +310,12 @@ class AddMealActivity : AppCompatActivity() {
                         })
                         .into(binding.addMealImageView)
 
-                    binding.addMealImage.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_edit))
+                    binding.addMealImage.setImageDrawable(
+                        ContextCompat.getDrawable(
+                            this,
+                            R.drawable.ic_edit
+                        )
+                    )
                 }
             }
         }
@@ -276,7 +326,7 @@ class AddMealActivity : AppCompatActivity() {
         private const val CAMERA_OPTION_REQUEST_CODE = 101
 
         private const val EMENU_IMAGE_DIRECTORY = "eMenuImages"
-        private const val  TAG = "ImagePath"
+        private const val TAG = "ImagePath"
     }
 
 }
