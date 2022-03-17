@@ -1,10 +1,9 @@
-package com.starsolns.emenu.ui
+package com.starsolns.emenu.ui.fragment
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.starsolns.emenu.R
 import com.starsolns.emenu.view.AddMealActivity
 
