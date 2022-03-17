@@ -68,18 +68,12 @@ class AddMealActivity : AppCompatActivity() {
         }
 
         binding.addMealCategory.setOnClickListener {
-            loadCustomListOptions(
-                "Select Meal Category",
-                Constants.getMealCategories(),
-                Constants.MEAL_CATEGORY
+            loadCustomListOptions("Select Meal Category", Constants.getMealCategories(), Constants.MEAL_CATEGORY
             )
         }
 
         binding.addMealDuration.setOnClickListener {
-            loadCustomListOptions(
-                "Select preparation Duration",
-                Constants.getMealDuration(),
-                Constants.MEAL_DURATION
+            loadCustomListOptions("Select preparation Duration", Constants.getMealDuration(), Constants.MEAL_DURATION
             )
         }
 
@@ -107,11 +101,7 @@ class AddMealActivity : AppCompatActivity() {
 
     }
 
-    private fun loadCustomListOptions(
-        title: String,
-        itemsList: List<String>,
-        selectedItem: String
-    ) {
+    private fun loadCustomListOptions( title: String, itemsList: List<String>, selectedItem: String ) {
         val customBinding: CustomListLayoutBinding = CustomListLayoutBinding.inflate(layoutInflater)
         customListDialog = Dialog(this)
         customListDialog.setContentView(customBinding.root)
