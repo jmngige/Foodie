@@ -2,7 +2,7 @@ package com.starsolns.emenu.util
 
 object Constants {
 
-    const val MEAL_TYPE: String = "meaType"
+    const val MEAL_TYPE: String = "mealType"
     const val MEAL_CATEGORY: String = "mealCategory"
     const val MEAL_DURATION: String = "mealDuration"
 

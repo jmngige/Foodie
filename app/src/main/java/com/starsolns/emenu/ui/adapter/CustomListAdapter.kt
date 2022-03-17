@@ -1,20 +1,24 @@
 package com.starsolns.emenu.ui.adapter
 
+import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.starsolns.emenu.R
 import com.starsolns.emenu.databinding.CustomItemLayoutBinding
 
 class CustomListAdapter(
-    private val context: Context,
+    private val activity: Activity,
     private val itemsList: List<String>,
     private val selection: String
 ): RecyclerView.Adapter<CustomListAdapter.ViewHolder>(){
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = CustomItemLayoutBinding.inflate(LayoutInflater.from(context), parent, false)
+        val binding: CustomItemLayoutBinding = CustomItemLayoutBinding.inflate(LayoutInflater.from(activity), parent, false)
         return ViewHolder(binding)
     }
 
@@ -25,8 +29,8 @@ class CustomListAdapter(
 
     override fun getItemCount() = itemsList.size
 
-    class ViewHolder(binding: CustomItemLayoutBinding): RecyclerView.ViewHolder(binding.root){
-        val listItem = binding.mealItemSelect
+    class ViewHolder(itemView: CustomItemLayoutBinding): RecyclerView.ViewHolder(itemView.root){
+    val listItem = itemView.mealItemSelect
     }
 
 }
