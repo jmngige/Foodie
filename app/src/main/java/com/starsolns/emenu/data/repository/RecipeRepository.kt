@@ -8,5 +8,4 @@ class RecipeRepository(private val recipeDao: RecipeDao) {
     suspend fun insertRecipe(recipe: Recipe){
         recipeDao.insertRecipe(recipe)
     }
-
 }

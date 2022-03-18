@@ -21,6 +21,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -35,11 +36,13 @@ import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.starsolns.emenu.R
+import com.starsolns.emenu.data.database.Recipe
 import com.starsolns.emenu.databinding.ActivityAddMealBinding
 import com.starsolns.emenu.databinding.CustomAddImageLayoutBinding
 import com.starsolns.emenu.databinding.CustomListLayoutBinding
 import com.starsolns.emenu.ui.adapter.CustomListAdapter
 import com.starsolns.emenu.util.Constants
+import com.starsolns.emenu.viewmodel.RoomViewModel
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -48,6 +51,8 @@ import java.util.*
 
 class AddMealActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddMealBinding
+
+    private lateinit var roomViewModel: RoomViewModel
 
     private var imagePath: String = ""
 
@@ -58,6 +63,9 @@ class AddMealActivity : AppCompatActivity() {
         binding = ActivityAddMealBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
+
+        //viewmodel
+        roomViewModel = ViewModelProvider(this)[RoomViewModel::class.java]
 
         binding.addMealImage.setOnClickListener {
             loadCustomAddImageOptions()
@@ -91,7 +99,10 @@ class AddMealActivity : AppCompatActivity() {
                 Toast.makeText(this, "Please please pleeeaase do the necessary", Toast.LENGTH_LONG).show()
 
             }else{
-                Toast.makeText(this, "Great job filling them in", Toast.LENGTH_LONG).show()
+                val recipe = Recipe(imagePath,Constants.IMAGE_SOURCE_LOCAL,title,type,category,ingredients,duration,directions,false)
+                roomViewModel.insertRecipe(recipe)
+                Toast.makeText(this, "Recipe added successfully", Toast.LENGTH_LONG).show()
+                finish()
             }
         }
 
