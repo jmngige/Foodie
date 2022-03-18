@@ -7,17 +7,17 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.starsolns.emenu.ui.fragment.HomeFragment"
+        android:name="com.starsolns.emenu.ui.fragment.AllMenuFragment"
         android:label="eMenu"
-        tools:layout="@layout/fragment_home"/>
+        tools:layout="@layout/fragment_all_menu"/>
     <fragment
         android:id="@+id/dashboardFragment"
-        android:name="com.starsolns.emenu.ui.fragment.DashboardFragment"
+        android:name="com.starsolns.emenu.ui.fragment.FavouriteFragment"
         android:label="Dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_favourite" />
     <fragment
         android:id="@+id/notificationsFragment"
-        android:name="com.starsolns.emenu.ui.fragment.NotificationsFragment"
+        android:name="com.starsolns.emenu.ui.fragment.RandomMenuFragment"
         android:label="Notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_random_menus" />
 </navigation>

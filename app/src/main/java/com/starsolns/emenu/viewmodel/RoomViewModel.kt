@@ -2,6 +2,7 @@ package com.starsolns.emenu.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.starsolns.emenu.data.database.Recipe
 import com.starsolns.emenu.data.database.RecipeDao
@@ -15,8 +16,11 @@ class RoomViewModel(application: Application): AndroidViewModel(application) {
     private var recipeDao = RecipeDatabase.getDatabase(application).recipeDao()
     private var repository: RecipeRepository
 
+    val getAllRecipes: LiveData<List<Recipe>>
+
     init {
         repository = RecipeRepository(recipeDao)
+        getAllRecipes = repository.getAllRecipes
     }
 
 
