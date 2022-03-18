@@ -22,7 +22,6 @@ class AllMenuFragment : Fragment() {
     private lateinit var roomViewModel: RoomViewModel
     private lateinit var recipeListAdapter: RecipeListAdapter
 
-    private var recipesList = mutableListOf<Recipe>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,25 +34,28 @@ class AllMenuFragment : Fragment() {
     ): View? {
        _binding = FragmentAllMenuBinding.inflate(layoutInflater, container, false)
 
-        roomViewModel = ViewModelProvider(requireActivity())[RoomViewModel::class.java]
-        roomViewModel.getAllRecipes.observe(requireActivity(), Observer { recipes->
-            recipesList.addAll(recipes)
-            recipeListAdapter.notifyDataSetChanged()
-        })
 
-        recipeListAdapter = RecipeListAdapter(requireActivity(), recipesList)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        roomViewModel = ViewModelProvider(requireActivity())[RoomViewModel::class.java]
+        roomViewModel.getAllRecipes.observe(viewLifecycleOwner) { recipes->
+            recipeListAdapter.setData(recipes)
+        }
+
+        recipeListAdapter = RecipeListAdapter(requireContext())
         binding.recipesListRv.layoutManager = GridLayoutManager(requireActivity(), 2)
         binding.recipesListRv.adapter = recipeListAdapter
 
-
-        roomViewModel.getAllRecipes
-
-        return binding.root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

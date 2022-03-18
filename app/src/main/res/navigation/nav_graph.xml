@@ -3,21 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/allMenuFragment">
 
     <fragment
-        android:id="@+id/homeFragment"
+        android:id="@+id/allMenuFragment"
         android:name="com.starsolns.emenu.ui.fragment.AllMenuFragment"
-        android:label="eMenu"
-        tools:layout="@layout/fragment_all_menu"/>
+        android:label="All Menus"
+        tools:layout="@layout/fragment_all_menu" />
     <fragment
-        android:id="@+id/dashboardFragment"
+        android:id="@+id/favouriteFragment"
         android:name="com.starsolns.emenu.ui.fragment.FavouriteFragment"
-        android:label="Dashboard"
+        android:label="Favourite"
         tools:layout="@layout/fragment_favourite" />
     <fragment
-        android:id="@+id/notificationsFragment"
+        android:id="@+id/randomFragment"
         android:name="com.starsolns.emenu.ui.fragment.RandomMenuFragment"
-        android:label="Notifications"
+        android:label="Random Menu"
         tools:layout="@layout/fragment_random_menus" />
 </navigation>

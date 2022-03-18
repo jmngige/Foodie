@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import com.starsolns.emenu.R
 
 class RandomMenuFragment : Fragment() {
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

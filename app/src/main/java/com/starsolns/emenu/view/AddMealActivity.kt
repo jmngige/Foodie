@@ -105,11 +105,6 @@ class AddMealActivity : AppCompatActivity() {
                 finish()
             }
         }
-
-    }
-
-    private fun storeDetailsInTheDatabase() {
-
     }
 
     private fun loadCustomListOptions( title: String, itemsList: List<String>, selectedItem: String ) {

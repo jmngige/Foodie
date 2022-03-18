@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.findNavController()
 
         appBarConfig = AppBarConfiguration(
-            setOf(R.id.homeFragment, R.id.dashboardFragment, R.id.notificationsFragment)
+            setOf(R.id.allMenuFragment, R.id.favouriteFragment, R.id.randomFragment)
         )
 
         binding.bottomNav.setupWithNavController(navController)
