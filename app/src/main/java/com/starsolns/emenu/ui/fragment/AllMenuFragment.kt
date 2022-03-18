@@ -6,12 +6,14 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.starsolns.emenu.R
 import com.starsolns.emenu.data.database.Recipe
 import com.starsolns.emenu.databinding.FragmentAllMenuBinding
 import com.starsolns.emenu.ui.adapter.RecipeListAdapter
 import com.starsolns.emenu.view.AddMealActivity
+import com.starsolns.emenu.view.MainActivity
 import com.starsolns.emenu.viewmodel.RoomViewModel
 
 class AllMenuFragment : Fragment() {
@@ -46,10 +48,26 @@ class AllMenuFragment : Fragment() {
             recipeListAdapter.setData(recipes)
         }
 
-        recipeListAdapter = RecipeListAdapter(requireContext())
+        recipeListAdapter = RecipeListAdapter(requireContext(), object: RecipeListAdapter.OnItemClickListener{
+            override fun onCLickListener(recipe: Recipe) {
+                val action = AllMenuFragmentDirections.actionAllMenuFragmentToMenuDetailsFragment(recipe)
+                findNavController().navigate(action)
+                if(requireActivity() is MainActivity){
+                    (activity as MainActivity?)?.hideBottomNavView()
+                }
+            }
+
+        })
         binding.recipesListRv.layoutManager = GridLayoutManager(requireActivity(), 2)
         binding.recipesListRv.adapter = recipeListAdapter
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(requireActivity() is MainActivity){
+            (activity as MainActivity?)?.showBottomNavView()
+        }
     }
 
     override fun onDestroyView() {

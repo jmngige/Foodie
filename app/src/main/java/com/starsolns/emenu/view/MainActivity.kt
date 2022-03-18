@@ -33,6 +33,16 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfig)
     }
 
+    fun hideBottomNavView(){
+        binding.bottomNav.clearAnimation()
+        binding.bottomNav.animate().translationY(binding.bottomNav.height.toFloat()).duration = 300
+    }
+
+    fun showBottomNavView(){
+        binding.bottomNav.clearAnimation()
+        binding.bottomNav.animate().translationY(0f).duration = 300
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }

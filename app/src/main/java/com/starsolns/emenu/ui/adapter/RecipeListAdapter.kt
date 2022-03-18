@@ -13,8 +13,13 @@ import com.starsolns.emenu.data.database.Recipe
 import com.starsolns.emenu.databinding.RecipeItemLayoutBinding
 
 class RecipeListAdapter(
-    private var context: Context
+    private var context: Context,
+    private var onItemClickListener: OnItemClickListener
 ): RecyclerView.Adapter<RecipeListAdapter.ViewHolder>(){
+
+    interface OnItemClickListener{
+        fun onCLickListener(recipe: Recipe)
+    }
 
     private var recipeList : List<Recipe> = listOf()
 
@@ -26,10 +31,12 @@ class RecipeListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentRecipe = recipeList[position]
 
-        holder.title.text = currentRecipe.name
-        Glide.with(context)
-            .load(currentRecipe.image)
-            .into(holder.image)
+        holder.bind(currentRecipe)
+
+//        holder.title.text = currentRecipe.name
+//        Glide.with(context)
+//            .load(currentRecipe.image)
+//            .into(holder.image)
 
     }
 
@@ -39,14 +46,22 @@ class RecipeListAdapter(
 
      inner class ViewHolder(view: RecipeItemLayoutBinding): RecyclerView.ViewHolder(view.root){
 
-         val image = view.recipeItemImage
-         val title = view.recipeItemTitle
+         private val image = view.recipeItemImage
+         private val title = view.recipeItemTitle
 
 
-        fun bind(mTitle: String, mImage: String){
-            title.text = mTitle
-            Glide.with(context).load(mImage).into(image)
-        }
+//        fun bind(mTitle: String, mImage: String){
+//            title.text = mTitle
+//            Glide.with(context).load(mImage).into(image)
+//        }
+
+         fun bind(recipe: Recipe){
+             title.text = recipe.name
+             Glide.with(context).load(recipe.image).into(image)
+             itemView.setOnClickListener {
+                 onItemClickListener.onCLickListener(recipe)
+             }
+         }
     }
 
     fun setData(dataList: List<Recipe>){

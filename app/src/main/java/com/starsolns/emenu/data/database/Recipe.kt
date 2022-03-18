@@ -3,6 +3,7 @@ package com.starsolns.emenu.data.database
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 @Entity(tableName = "recipe_table")
 data class Recipe (
@@ -20,4 +21,4 @@ data class Recipe (
     @ColumnInfo(name = "favourite_dish")
     val favourite: Boolean = false,
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0)
+    val id: Int = 0): Serializable
