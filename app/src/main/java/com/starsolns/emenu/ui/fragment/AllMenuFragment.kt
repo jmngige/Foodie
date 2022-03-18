@@ -9,15 +9,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.starsolns.emenu.R
 import com.starsolns.emenu.data.database.Recipe
-import com.starsolns.emenu.databinding.CustomItemLayoutBinding
-import com.starsolns.emenu.databinding.FragmentHomeBinding
+import com.starsolns.emenu.databinding.FragmentAllMenuBinding
 import com.starsolns.emenu.ui.adapter.RecipeListAdapter
 import com.starsolns.emenu.view.AddMealActivity
 import com.starsolns.emenu.viewmodel.RoomViewModel
 
 class AllMenuFragment : Fragment() {
 
-    private var _binding: FragmentHomeBinding? = null
+    private var _binding: FragmentAllMenuBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var roomViewModel: RoomViewModel
@@ -34,7 +33,7 @@ class AllMenuFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-       _binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
+       _binding = FragmentAllMenuBinding.inflate(layoutInflater, container, false)
 
         roomViewModel = ViewModelProvider(requireActivity())[RoomViewModel::class.java]
         roomViewModel.getAllRecipes.observe(requireActivity(), Observer { recipes->
