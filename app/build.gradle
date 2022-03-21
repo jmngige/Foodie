@@ -69,6 +69,10 @@ dependencies {
     implementation "androidx.room:room-runtime:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
 
+    //palette dep
+    def palette_version = "1.0.0"
+    implementation "androidx.palette:palette-ktx:$palette_version"
+
 
 
 

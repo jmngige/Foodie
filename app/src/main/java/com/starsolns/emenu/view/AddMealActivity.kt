@@ -64,7 +64,7 @@ class AddMealActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
 
-        //viewmodel
+        //viewModel
         roomViewModel = ViewModelProvider(this)[RoomViewModel::class.java]
 
         binding.addMealImage.setOnClickListener {
