@@ -20,7 +20,13 @@
         android:id="@+id/favouriteFragment"
         android:name="com.starsolns.emenu.ui.fragment.FavouriteFragment"
         android:label="Favourite"
-        tools:layout="@layout/fragment_favourite" />
+        tools:layout="@layout/fragment_favourite" >
+        <action
+            android:id="@+id/action_favouriteFragment_to_menuDetailsFragment"
+            app:destination="@id/menuDetailsFragment"
+            app:popUpTo="@id/menuDetailsFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/randomFragment"
         android:name="com.starsolns.emenu.ui.fragment.RandomMenuFragment"
@@ -39,5 +45,10 @@
         <argument
             android:name="currentRecipe"
             app:argType="com.starsolns.emenu.data.database.Recipe" />
+        <action
+            android:id="@+id/action_menuDetailsFragment_to_favouriteFragment"
+            app:destination="@id/favouriteFragment"
+            app:popUpTo="@id/favouriteFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

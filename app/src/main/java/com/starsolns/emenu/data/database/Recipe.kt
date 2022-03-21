@@ -7,18 +7,18 @@ import java.io.Serializable
 
 @Entity(tableName = "recipe_table")
 data class Recipe (
-    val image: String,
+    var image: String,
     @ColumnInfo(name ="image_source")
-    val imageSource: String,
-    val name: String,
-    val type: String,
-    val category: String,
-    val ingredients: String,
+    var imageSource: String,
+    var name: String,
+    var type: String,
+    var category: String,
+    var ingredients: String,
     @ColumnInfo(name="cooking_time")
-    val cookingTime: String,
+    var cookingTime: String,
     @ColumnInfo(name="instructions")
-    val directions: String,
+    var directions: String,
     @ColumnInfo(name = "favourite_dish")
-    val favourite: Boolean = false,
+    var favourite: Boolean = false,
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0): Serializable
