@@ -22,6 +22,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -41,6 +44,7 @@ import com.starsolns.emenu.databinding.ActivityAddMealBinding
 import com.starsolns.emenu.databinding.CustomAddImageLayoutBinding
 import com.starsolns.emenu.databinding.CustomListLayoutBinding
 import com.starsolns.emenu.ui.adapter.CustomListAdapter
+import com.starsolns.emenu.ui.fragment.AllMenuFragment
 import com.starsolns.emenu.util.Constants
 import com.starsolns.emenu.viewmodel.RoomViewModel
 import java.io.File
@@ -55,6 +59,8 @@ class AddMealActivity : AppCompatActivity() {
     private lateinit var roomViewModel: RoomViewModel
 
     private var imagePath: String = ""
+
+    private var recipeDetails: Recipe? = null
 
     private lateinit var customListDialog: Dialog
 
@@ -86,29 +92,96 @@ class AddMealActivity : AppCompatActivity() {
         }
 
         binding.addMealButton.setOnClickListener {
-            val title = binding.addMealName.text.toString().trim()
-            val type = binding.addMealType.text.toString().trim()
-            val category = binding.addMealCategory.text.toString().trim()
-            val ingredients = binding.addMealIngredients.text.toString().trim()
-            val duration = binding.addMealDuration.text.toString().trim()
-            val directions = binding.addMealDirections.text.toString().trim()
-
-            if (TextUtils.isEmpty(imagePath) || TextUtils.isEmpty(title) || TextUtils.isEmpty(type) || TextUtils.isEmpty(category) || TextUtils.isEmpty(ingredients)
-                || TextUtils.isEmpty(duration) || TextUtils.isEmpty(directions)) {
-
-                Toast.makeText(this, "Please please pleeeaase do the necessary", Toast.LENGTH_LONG).show()
-
-            }else{
-                val recipe = Recipe(imagePath,Constants.IMAGE_SOURCE_LOCAL,title,type,category,ingredients,duration,directions,false)
-                roomViewModel.insertRecipe(recipe)
-                Toast.makeText(this, "Recipe added successfully", Toast.LENGTH_LONG).show()
-                finish()
-            }
+           addUpdateRecipeDetails()
         }
 
         if(intent.hasExtra(Constants.EXTRA_UPDATE_DETAILS)){
-
             binding.addMealButton.text = "Update Recipe"
+
+            recipeDetails = intent.getSerializableExtra(Constants.EXTRA_UPDATE_DETAILS) as Recipe
+        }
+
+        recipeDetails?.let {recipe->
+            if (recipe.id != 0){
+                imagePath = recipe.image
+
+                Glide.with(applicationContext)
+                    .load(imagePath)
+                    .centerCrop()
+                    .into(binding.addMealImageView)
+
+                binding.addMealName.setText(recipe.name)
+                binding.addMealType.setText(recipe.type)
+                binding.addMealCategory.setText(recipe.category)
+                binding.addMealIngredients.setText(recipe.ingredients)
+                binding.addMealDuration.setText(recipe.cookingTime)
+                binding.addMealDirections.setText(recipe.directions)
+
+            }
+        }
+    }
+
+    private fun addUpdateRecipeDetails() {
+        val title = binding.addMealName.text.toString().trim()
+        val type = binding.addMealType.text.toString().trim()
+        val category = binding.addMealCategory.text.toString().trim()
+        val ingredients = binding.addMealIngredients.text.toString().trim()
+        val duration = binding.addMealDuration.text.toString().trim()
+        val directions = binding.addMealDirections.text.toString().trim()
+
+        if (TextUtils.isEmpty(imagePath) || TextUtils.isEmpty(title) || TextUtils.isEmpty(type) || TextUtils.isEmpty(category) || TextUtils.isEmpty(ingredients)
+            || TextUtils.isEmpty(duration) || TextUtils.isEmpty(directions)) {
+
+            Toast.makeText(this, "Please please pleeeaase do the necessary", Toast.LENGTH_LONG).show()
+
+        }else{
+
+            var recipeId = 0
+            var imageSource = Constants.IMAGE_SOURCE_LOCAL
+            var favouriteRecipe = false
+
+            recipeDetails?.let {recipe->
+                if(recipe.id != 0){
+                    recipeId = recipe.id
+                    imageSource = recipe.imageSource
+                    favouriteRecipe = recipe.favourite
+                }
+            }
+
+            val recipe = Recipe(imagePath,imageSource,title,type,category,ingredients,duration,directions,false, recipeId)
+
+            if (recipeId == 0){
+                roomViewModel.updateRecipe(recipe)
+                Toast.makeText(this, "Recipe added successfully", Toast.LENGTH_LONG).show()
+            }else{
+                roomViewModel.updateRecipe(recipe)
+                Toast.makeText(this, "Recipe updated successfully", Toast.LENGTH_LONG).show()
+            }
+
+            finish()
+        }
+    }
+
+
+    private fun updateRecipeDetails(recipeId: Int) {
+
+        val title = binding.addMealName.text.toString().trim()
+        val type = binding.addMealType.text.toString().trim()
+        val category = binding.addMealCategory.text.toString().trim()
+        val ingredients = binding.addMealIngredients.text.toString().trim()
+        val duration = binding.addMealDuration.text.toString().trim()
+        val directions = binding.addMealDirections.text.toString().trim()
+
+        if (TextUtils.isEmpty(imagePath) || TextUtils.isEmpty(title) || TextUtils.isEmpty(type) || TextUtils.isEmpty(category) || TextUtils.isEmpty(ingredients)
+            || TextUtils.isEmpty(duration) || TextUtils.isEmpty(directions)) {
+
+            Toast.makeText(this, "Please please pleeeaase do the necessary", Toast.LENGTH_LONG).show()
+
+        }else{
+            val updateRecipe = Recipe(imagePath,Constants.IMAGE_SOURCE_LOCAL,title,type,category,ingredients,duration,directions,false, recipeId)
+            roomViewModel.insertRecipe(updateRecipe)
+            Toast.makeText(this, "Recipe updated successfully", Toast.LENGTH_LONG).show()
+            finish()
 
         }
     }

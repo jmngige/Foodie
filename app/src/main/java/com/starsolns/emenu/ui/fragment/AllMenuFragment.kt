@@ -12,6 +12,7 @@ import com.starsolns.emenu.R
 import com.starsolns.emenu.data.database.Recipe
 import com.starsolns.emenu.databinding.FragmentAllMenuBinding
 import com.starsolns.emenu.ui.adapter.RecipeListAdapter
+import com.starsolns.emenu.util.Constants
 import com.starsolns.emenu.view.AddMealActivity
 import com.starsolns.emenu.view.MainActivity
 import com.starsolns.emenu.viewmodel.RoomViewModel
@@ -52,6 +53,7 @@ class AllMenuFragment : Fragment() {
             override fun onCLickListener(recipe: Recipe) {
                 val action = AllMenuFragmentDirections.actionAllMenuFragmentToMenuDetailsFragment(recipe)
                 findNavController().navigate(action)
+
                 if(requireActivity() is MainActivity){
                     (activity as MainActivity?)?.hideBottomNavView()
                 }

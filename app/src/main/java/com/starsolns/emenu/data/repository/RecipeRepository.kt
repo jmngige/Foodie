@@ -9,6 +9,7 @@ class RecipeRepository(private val recipeDao: RecipeDao) {
      val getAllRecipes : LiveData<List<Recipe>> = recipeDao.getAllRecipes()
     val getAllFavouriteRecipes: LiveData<List<Recipe>> = recipeDao.getAllFavouriteRecipes()
 
+
     suspend fun insertRecipe(recipe: Recipe){
         recipeDao.insertRecipe(recipe)
     }
@@ -20,5 +21,4 @@ class RecipeRepository(private val recipeDao: RecipeDao) {
     suspend fun deleteRecipe(recipe: Recipe){
         recipeDao.deleteRecipe(recipe)
     }
-
 }

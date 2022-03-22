@@ -16,6 +16,7 @@ class RoomViewModel(application: Application): AndroidViewModel(application) {
     private var recipeDao = RecipeDatabase.getDatabase(application).recipeDao()
     private var repository: RecipeRepository
 
+
     val getAllRecipes: LiveData<List<Recipe>>
     val getAllFavouriteRecipes: LiveData<List<Recipe>>
 
@@ -24,7 +25,6 @@ class RoomViewModel(application: Application): AndroidViewModel(application) {
         getAllRecipes = repository.getAllRecipes
         getAllFavouriteRecipes = repository.getAllFavouriteRecipes
     }
-
 
     fun insertRecipe(recipe: Recipe){
         viewModelScope.launch(Dispatchers.IO){

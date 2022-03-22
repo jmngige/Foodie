@@ -38,6 +38,8 @@ class MenuDetailsFragment : Fragment() {
     ): View? {
         _binding = FragmentMenuDetailsBinding.inflate(layoutInflater, container, false)
 
+
+
         return binding.root
     }
 
@@ -55,6 +57,7 @@ class MenuDetailsFragment : Fragment() {
         roomViewModel = ViewModelProvider(requireActivity())[RoomViewModel::class.java]
 
         binding.recipeDetailName.text = recipe.name
+
         Glide.with(requireContext())
             .load(recipe.image)
             .listener(object : RequestListener<Drawable> {
@@ -138,8 +141,10 @@ class MenuDetailsFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.editRecipe -> {
+                val recipe = args.currentRecipe
+
                 val editIntent = Intent(requireContext(), AddMealActivity::class.java)
-                editIntent.putExtra(Constants.EXTRA_UPDATE_DETAILS, args.currentRecipe)
+                editIntent.putExtra(Constants.EXTRA_UPDATE_DETAILS, recipe)
                 startActivity(editIntent)
             }
             R.id.deleteRecipe -> {

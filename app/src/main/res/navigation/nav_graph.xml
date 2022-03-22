@@ -50,5 +50,15 @@
             app:destination="@id/favouriteFragment"
             app:popUpTo="@id/favouriteFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_menuDetailsFragment_to_addMealActivity"
+            app:destination="@id/addMealActivity"
+            app:popUpTo="@id/addMealActivity"
+            app:popUpToInclusive="true" />
     </fragment>
+    <activity
+        android:id="@+id/addMealActivity"
+        android:name="com.starsolns.emenu.view.AddMealActivity"
+        android:label="activity_add_meal"
+        tools:layout="@layout/activity_add_meal" />
 </navigation>
