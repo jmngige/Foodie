@@ -6,6 +6,8 @@ object Constants {
     const val MEAL_CATEGORY: String = "mealCategory"
     const val MEAL_DURATION: String = "mealDuration"
 
+    const val EXTRA_UPDATE_DETAILS = "updateRecipe"
+
     const val IMAGE_SOURCE_LOCAL = "local"
     const val IMAGE_SOURCE_ONLINE = "online"
 

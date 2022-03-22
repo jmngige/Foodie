@@ -38,5 +38,11 @@ class RoomViewModel(application: Application): AndroidViewModel(application) {
         }
     }
 
+    fun deleteRecipe(recipe: Recipe){
+        viewModelScope.launch(Dispatchers.IO){
+        repository.deleteRecipe(recipe)
+        }
+    }
+
 
 }

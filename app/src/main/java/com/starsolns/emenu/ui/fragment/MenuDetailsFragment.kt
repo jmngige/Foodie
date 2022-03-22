@@ -1,14 +1,15 @@
 package com.starsolns.emenu.ui.fragment
 
+import android.app.AlertDialog
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.palette.graphics.Palette
 import com.bumptech.glide.Glide
@@ -18,6 +19,8 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.starsolns.emenu.R
 import com.starsolns.emenu.databinding.FragmentMenuDetailsBinding
+import com.starsolns.emenu.util.Constants
+import com.starsolns.emenu.view.AddMealActivity
 import com.starsolns.emenu.viewmodel.RoomViewModel
 
 class MenuDetailsFragment : Fragment() {
@@ -36,6 +39,12 @@ class MenuDetailsFragment : Fragment() {
         _binding = FragmentMenuDetailsBinding.inflate(layoutInflater, container, false)
 
         return binding.root
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -119,6 +128,41 @@ class MenuDetailsFragment : Fragment() {
             )
         }
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.recipe_details_appbar_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.editRecipe -> {
+                val editIntent = Intent(requireContext(), AddMealActivity::class.java)
+                editIntent.putExtra(Constants.EXTRA_UPDATE_DETAILS, args.currentRecipe)
+                startActivity(editIntent)
+            }
+            R.id.deleteRecipe -> {
+               deleteRecipe()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun deleteRecipe() {
+        val builder = AlertDialog.Builder(requireActivity())
+        builder.setTitle("Delete ${args.currentRecipe.name}")
+            .setMessage("Are you sure you want to delete ${args.currentRecipe.name}")
+            .setIcon(R.drawable.ic_alert)
+            .setPositiveButton("Delete"){_,_->
+                val recipe = args.currentRecipe
+                roomViewModel.deleteRecipe(recipe)
+                val action = MenuDetailsFragmentDirections.actionMenuDetailsFragmentToAllMenuFragment()
+                findNavController().navigate(action)
+            }
+            .setNegativeButton("Cancel"){_,_->}
+        val dialog = builder.create()
+        dialog.show()
     }
 
     override fun onDestroyView() {

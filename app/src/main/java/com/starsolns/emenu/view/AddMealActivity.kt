@@ -105,6 +105,12 @@ class AddMealActivity : AppCompatActivity() {
                 finish()
             }
         }
+
+        if(intent.hasExtra(Constants.EXTRA_UPDATE_DETAILS)){
+
+            binding.addMealButton.text = "Update Recipe"
+
+        }
     }
 
     private fun loadCustomListOptions( title: String, itemsList: List<String>, selectedItem: String ) {
