@@ -150,6 +150,15 @@ class MenuDetailsFragment : Fragment() {
             R.id.deleteRecipe -> {
                deleteRecipe()
             }
+            R.id.shareRecipe -> {
+                val shareIntent = Intent().apply {
+                    this.action = Intent.ACTION_SEND
+                    this.type = "text/plain"
+                    this.putExtra(Intent.EXTRA_SUBJECT, "recipe link")
+                }
+
+                startActivity(Intent.createChooser(shareIntent, "Share With..."))
+            }
         }
         return super.onOptionsItemSelected(item)
     }

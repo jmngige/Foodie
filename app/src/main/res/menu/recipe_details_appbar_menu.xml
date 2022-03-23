@@ -5,13 +5,19 @@
     <item
         android:id="@+id/editRecipe"
         android:icon="@drawable/ic_edit"
-        app:showAsAction="always"
-        android:title="Edit"/>
+        android:title="Edit"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/deleteRecipe"
         android:icon="@drawable/ic_delete"
         android:title="Delete"
-        app:showAsAction="always"/>
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/shareRecipe"
+        android:icon="@drawable/ic_share"
+        android:title="Share"
+        app:showAsAction="ifRoom" />
 
 </menu>
